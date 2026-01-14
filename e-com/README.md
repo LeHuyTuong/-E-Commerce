@@ -1,43 +1,46 @@
-# E-Commerce Platform
+# 🛡️ E-Commerce Backend (Banking Standard)
 
-A robust, full-stack E-Commerce application built with Spring Boot and React.
+Spring Boot application designed with financial system principles.
 
-## Features
+## 🏗️ Database Schema (Key Entities)
 
-- **User Authentication**: Secure Login/Register with JWT, Role-based access control (Admin, User).
-- **Product Management**: CRUD operations for products and categories (Admin), Search and Filter (User).
-- **Shopping Cart**: Real-time cart updates, optimistic UI for smooth experience.
-- **Checkout**: Support for Cash on Delivery (COD) and Credit Card (Stripe integration), plus Wallet payments.
-- **Soft Delete**: Data safety with soft delete implementation for critical entities.
-- **Responsive Design**: Modern, responsive UI built with React.
+*   **User**: Stores credentials and roles.
+*   **Wallet**: 1-to-1 with User. Stores `balance`.
+*   **WalletTransaction**: 1-to-Many with Wallet. Immutable history of all money movements.
+    *   *Fields*: `amount`, `type` (CREDIT/DEBIT), `status`, `relatedOrder`.
 
-## Technology Stack
+## 🔐 Security & Compliance
 
-### Backend
-- **Java 17+**
-- **Spring Boot 3.x**: Web, Data JPA, Security.
-- **Database**: H2 (Dev) / MySQL (Prod).
-- **Security**: Spring Security, JWT (Stateless).
+1.  **JWT Authentication**: Stateless authentication.
+2.  **BCrypt**: Password hashing.
+3.  **CORS**: Configured to allow specific frontend origins only.
+4.  **Transactional**: 
+    *   `OrderServiceImpl.placeOrder` is `@Transactional`.
+    *   If any step fails (Inventory update, Wallet debit, Payment record), the entire transaction rolls back.
 
-### Frontend
-- **React 18**: Functional components, Hooks.
-- **Vite**: Fast build tool.
-- **Axios**: API integration.
-- **React Toastify**: Notifications.
+## 🧪 Testing
 
-## Setup Instructions
+Run Unit Tests to verify financial logic:
 
-### Backend
-1. Navigate to `e-com` directory.
-2. Run `mvn spring-boot:run`.
-3. Server runs on `http://localhost:8080`.
+```bash
+mvn test
+```
 
-### Frontend
-1. Navigate to `ecom-frontend` directory.
-2. Run `npm install`.
-3. Run `npm run dev`.
-4. App runs on `http://localhost:5173`.
+*Includes strictly tested `WalletServiceTest` ensuring money calculations are accurate.*
 
-## Admin Credentials
-- **Username**: `admin1`
-- **Password**: `123456`
+## ⚙️ Transaction Flow (Concurrency)
+
+To prevent **Double Spending**, we utilize **Pessimistic Locking**:
+
+```java
+@Lock(LockModeType.PESSIMISTIC_WRITE)
+Optional<Wallet> findByUser(User user);
+```
+
+This ensures that when a transaction is processing a specific wallet, other transactions must wait, preventing race conditions.
+
+## 📚 API Documentation
+
+(Assuming application is running)
+*   **Swagger UI**: [http://localhost:8080/swagger-ui.html](http://localhost:8080/swagger-ui.html)
+*   **H2 Console**: [http://localhost:8080/h2-console](http://localhost:8080/h2-console)
