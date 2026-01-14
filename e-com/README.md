@@ -1,15 +1,15 @@
-# 🛡️ E-Commerce Backend (Banking Standard)
+# E-Commerce Backend (Banking Standard)
 
 Spring Boot application designed with financial system principles.
 
-## 🏗️ Database Schema (Key Entities)
+## Database Schema (Key Entities)
 
 *   **User**: Stores credentials and roles.
 *   **Wallet**: 1-to-1 with User. Stores `balance`.
 *   **WalletTransaction**: 1-to-Many with Wallet. Immutable history of all money movements.
     *   *Fields*: `amount`, `type` (CREDIT/DEBIT), `status`, `relatedOrder`.
 
-## 🔐 Security & Compliance
+## Security & Compliance
 
 1.  **JWT Authentication**: Stateless authentication.
 2.  **BCrypt**: Password hashing.
@@ -18,7 +18,7 @@ Spring Boot application designed with financial system principles.
     *   `OrderServiceImpl.placeOrder` is `@Transactional`.
     *   If any step fails (Inventory update, Wallet debit, Payment record), the entire transaction rolls back.
 
-## 🧪 Testing
+## Testing
 
 Run Unit Tests to verify financial logic:
 
@@ -28,7 +28,7 @@ mvn test
 
 *Includes strictly tested `WalletServiceTest` ensuring money calculations are accurate.*
 
-## ⚙️ Transaction Flow (Concurrency)
+## Transaction Flow (Concurrency)
 
 To prevent **Double Spending**, we utilize **Pessimistic Locking**:
 
@@ -39,7 +39,7 @@ Optional<Wallet> findByUser(User user);
 
 This ensures that when a transaction is processing a specific wallet, other transactions must wait, preventing race conditions.
 
-## 📚 API Documentation
+## API Documentation
 
 (Assuming application is running)
 *   **Swagger UI**: [http://localhost:8080/swagger-ui.html](http://localhost:8080/swagger-ui.html)

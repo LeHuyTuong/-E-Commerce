@@ -1,8 +1,8 @@
-# 🛒 E-Commerce Frontend
+# E-Commerce Frontend
 
 Modern React application built with Vite, focusing on performance and user experience.
 
-## 🛠️ Technology Stack
+## Technology Stack
 
 *   **Core**: React 18, Vite
 *   **State Management**: React Context API (Cart, Auth)
@@ -10,7 +10,7 @@ Modern React application built with Vite, focusing on performance and user exper
 *   **Styling**: CSS Modules / Vanilla CSS
 *   **Notifications**: React Toastify
 
-## ⚙️ Environment Setup
+## Environment Setup
 
 Create a `.env` file in the root directory:
 
@@ -19,7 +19,7 @@ VITE_API_BASE_URL=http://localhost:8080/api
 VITE_STRIPE_PUBLIC_KEY=pk_test_...
 ```
 
-## 📂 Project Structure
+## Project Structure
 
 ```
 src/
@@ -30,7 +30,7 @@ src/
 └── Main.jsx        # Entry point
 ```
 
-## 🔐 Security Features
+## Security Features
 
 *   **Auto-Logout**: Automatically redirects to login when JWT expires (401 Unauthorized interceptor).
 *   **Protected Routes**: `ProtectedRoute` and `SellerRoute` components ensure unauthorized access is blocked at the router level.
